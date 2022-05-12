@@ -11,6 +11,8 @@ interpret:
 
     cmp ch, '.'
     je print
+    cmp ch, ','
+    je input
     cmp ch, '+'
     je increment
     cmp ch, '-'
@@ -26,6 +28,14 @@ interpret:
     mov eax, 1
     mov ebx, 0
     int 0x80
+
+input:
+    mov eax, 3
+    mov ebx, 2
+    mov ecx, [data_pointer]
+    mov edx, 1
+    int 0x80
+    jmp interpret
 
 right:
     inc byte [data_pointer]
@@ -54,7 +64,8 @@ print:
 section .data
     data_pointer: dd data
     instruction_pointer: dd instructions - 1
-    instructions: db "++++++++++++++++++++++++++++++++++++.>++++++++++++++++++++++++++++++++++++<-.", 0
+    instructions: db ",+.", 0
 
 section .bss
     data: resb 30000
+    input_buf: resb 1
