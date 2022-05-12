@@ -7,20 +7,10 @@ interpret:
     inc dword [instruction_pointer]
 
     mov eax, [instruction_pointer]      ; Get instruction address
-    mov ebx, [data_pointer]             ; Get data address
     mov ch, [eax]                       ; Get instruction
 
     cmp ch, '.'
-    jne .not_print
-
-    mov eax, 4
-    mov ecx, [data_pointer]
-    mov ebx, 1
-    mov edx, 1
-    int 0x80
-    jmp interpret
-
-.not_print:
+    je print
     cmp ch, 0
     jnz interpret
 
@@ -28,6 +18,14 @@ interpret:
     mov eax, 1
     mov ebx, 0
     int 0x80
+
+print:
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, [data_pointer]
+    mov edx, 1
+    int 0x80
+    jmp interpret
 
 section .data
     data_pointer: dd data
