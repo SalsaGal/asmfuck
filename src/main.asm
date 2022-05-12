@@ -6,6 +6,7 @@ interpret:
     inc dword [instruction_pointer]
 
     mov eax, [instruction_pointer]      ; Get instruction address
+    mov ebx, [data_pointer]             ; Get data address
     mov ch, [eax]                       ; Get instruction
 
     cmp ch, '.'
@@ -21,14 +22,13 @@ interpret:
     int 0x80
 
 increment:
-    mov eax, [data_pointer]
-    inc byte [eax]
+    inc byte [ebx]
     jmp interpret
 
 print:
     mov eax, 4
+    mov ecx, ebx
     mov ebx, 1
-    mov ecx, [data_pointer]
     mov edx, 1
     int 0x80
     jmp interpret
