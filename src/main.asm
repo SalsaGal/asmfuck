@@ -13,6 +13,12 @@ interpret:
     je print
     cmp ch, '+'
     je increment
+    cmp ch, '-'
+    je decrement
+    cmp ch, '>'
+    je right
+    cmp ch, '<'
+    je left
     cmp ch, 0
     jnz interpret
 
@@ -20,6 +26,14 @@ interpret:
     mov eax, 1
     mov ebx, 0
     int 0x80
+
+right:
+    inc byte [data_pointer]
+    jmp interpret
+
+left:
+    dec byte [data_pointer]
+    jmp interpret
 
 decrement:
     dec byte [ebx]
@@ -40,7 +54,7 @@ print:
 section .data
     data_pointer: dd data
     instruction_pointer: dd instructions - 1
-    instructions: db "++++++++++++++++++++++++++++++++++++.", 0
+    instructions: db "++++++++++++++++++++++++++++++++++++.>++++++++++++++++++++++++++++++++++++<-.", 0
 
 section .bss
     data: resb 30000
