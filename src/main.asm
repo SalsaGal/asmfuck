@@ -21,6 +21,10 @@ interpret:
     mov ebx, 0
     int 0x80
 
+decrement:
+    dec byte [ebx]
+    jmp interpret
+
 increment:
     inc byte [ebx]
     jmp interpret
