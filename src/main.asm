@@ -4,9 +4,8 @@ _start:
 
 interpret:
     mov eax, [instruction_pointer]      ; Get instruction address
-    mov ebx, [data_pointer]
-    mov ch, [eax]
-    mov cl, [ebx]
+    mov ebx, [data_pointer]             ; Get data address
+    mov ch, [eax]                       ; Get instruction
 
 .end:
     mov eax, 1

@@ -1,3 +1,7 @@
 [default]
 make
 out/asmfuck
+
+[clean]
+make -B
+out/asmfuck
