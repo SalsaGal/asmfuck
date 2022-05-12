@@ -13,12 +13,14 @@ interpret:
     cmp ch, '.'
     jne .not_print
 
-.not_print:
     mov eax, 4
     mov ecx, [data_pointer]
     mov ebx, 1
     mov edx, 1
     int 0x80
+    jmp interpret
+
+.not_print:
     jnz interpret
 
 .end:
