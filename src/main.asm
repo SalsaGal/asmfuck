@@ -1,6 +1,17 @@
 section .text
 global _start
 _start:
+
+interpret:
+    mov eax, [instruction_pointer]      ; Get instruction address
+    mov bl, [eax]                       ; Get instruction
+
+    cmp bl, 0
+    jz .end
+    inc dword [instruction_pointer]
+    jmp interpret
+
+.end:
     mov eax, 1
     mov ebx, 0
     int 0x80
@@ -15,6 +26,8 @@ print:
     ret
 
 section .data
+    instructions: db "++++++++++++++++++++++++++++++++++++.", 0
+    instruction_pointer: dd instructions
     data_pointer: dd 0
 
 section .bss
