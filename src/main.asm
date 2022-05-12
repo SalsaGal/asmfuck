@@ -21,6 +21,7 @@ interpret:
     jmp interpret
 
 .not_print:
+    cmp ch, 0
     jnz interpret
 
 .end:
