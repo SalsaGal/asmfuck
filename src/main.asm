@@ -5,9 +5,9 @@ _start:
 interpret:
     inc dword [instruction_pointer]
 
-    mov eax, [instruction_pointer]      ; Get instruction address
-    mov ebx, [data_pointer]             ; Get data address
-    mov ch, [eax]                       ; Get instruction
+    mov rax, [instruction_pointer]      ; Get instruction address
+    mov rbx, [data_pointer]             ; Get data address
+    mov ch, [rax]                       ; Get instruction
 
     cmp ch, '.'
     je print
@@ -25,16 +25,16 @@ interpret:
     jnz interpret
 
 .end:
-    mov eax, 1
-    mov ebx, 0
-    int 0x80
+    mov rax, 60
+    mov rdi, 0
+    syscall
 
 input:
-    mov eax, 3
-    mov ebx, 2
-    mov ecx, [data_pointer]
-    mov edx, 1
-    int 0x80
+    mov rax, 0
+    mov rdi, 0
+    mov rsi, [data_pointer]
+    mov rdx, 1
+    syscall
     jmp interpret
 
 right:
@@ -46,25 +46,25 @@ left:
     jmp interpret
 
 decrement:
-    dec byte [ebx]
+    dec byte [rbx]
     jmp interpret
 
 increment:
-    inc byte [ebx]
+    inc byte [rbx]
     jmp interpret
 
 print:
-    mov eax, 4
-    mov ecx, ebx
-    mov ebx, 1
-    mov edx, 1
-    int 0x80
+    mov rax, 1
+    mov rdi, 1
+    mov rsi, [data_pointer]
+    mov rdx, 1
+    syscall
     jmp interpret
 
 section .data
-    data_pointer: dd data
-    instruction_pointer: dd instructions - 1
-    instructions: db ",+.", 0
+    data_pointer: dq data
+    instruction_pointer: dq instructions - 1
+    instructions: db "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++.,+.,++.", 0
 
 section .bss
     data: resb 30000
